@@ -29,7 +29,13 @@ async def consultant_endpoint(request: ConsultantRequest) -> ConsultantResponse:
 	"""
 	try:
 		result = getAgentAnswer(consultant, request.query)
-		return result
+		response_dict = {
+			"title": result.title,
+			"response": result.response,
+			"summary": result.summary,
+			"source": result.source
+		}
+		return ConsultantResponse(**response_dict)
 	except Exception as e:
 		logger.exception("Answer failed")
 		raise HTTPException(status_code=500, detail=str(e))

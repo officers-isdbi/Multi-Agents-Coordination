@@ -7,8 +7,10 @@ requires-python = ">=3.13"
 dependencies = [
     "agno>=1.4.5",
     "fastapi>=0.115.12",
+    "openai>=1.78.0",
     "pydantic>=2.11.4",
     "python-dotenv>=1.1.0",
     "python-multipart>=0.0.20",
+    "tavily-python>=0.7.2",
     "uvicorn>=0.34.2",
 ]

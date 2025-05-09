@@ -6,5 +6,6 @@ def getTeamAnswer(team: Team, query: str) -> str:
     return team.run(query)
 
 def getAgentAnswer(agent: Agent, query: str) -> str:
-    return agent.run(query)
+    result = agent.run(query, structured_outputs=True)
+    return result.content
 
