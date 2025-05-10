@@ -1,9 +1,10 @@
 from fastapi import APIRouter, HTTPException
 import logging
 
-from src.agents.models import BankingDepartmentRequest, BankingDepartmentResponse, ConsultantRequest, ConsultantResponse
+from src.agents.models import BankingDepartmentRequest, BankingDepartmentResponse, ConsultantRequest, ConsultantResponse, IslamicFinanceContractReport, ContractFormat
 from src.agents.utils import getTeamAnswer, getAgentAnswer
-from src.agents import banking_department, consultant
+from src.agents import banking_department, consultant, contractor
+from api.utils import post_request
 
 logger = logging.getLogger("uvicorn.error")
 
@@ -25,21 +26,42 @@ async def banking_department_endpoint(request: BankingDepartmentRequest) -> Bank
 @router.post("/consultant", response_model=ConsultantResponse)
 async def consultant_endpoint(request: ConsultantRequest) -> ConsultantResponse:
 	"""
-	Consults a query.
+	Consults a query and optionally generates a contract report.
 	"""
 	try:
 		result = getAgentAnswer(consultant, request.query)
 		response_dict = {
-			"title": result.title,
 			"response": result.response,
+			"title": result.title,
 			"summary": result.summary,
-			"source": result.source
+			"report": result.report if hasattr(result, 'report') else None
 		}
+
 		return ConsultantResponse(**response_dict)
 	except Exception as e:
 		logger.exception("Answer failed")
 		raise HTTPException(status_code=500, detail=str(e))
-    
+	
+@router.post("/contractor", response_model=ContractFormat)
+async def contractor_endpoint(request: IslamicFinanceContractReport) -> ContractFormat:
+	"""
+	Generates a contract format.
+	"""
+	try:
+		result = getAgentAnswer(contractor, request)
+		response_dict = {
+			"title": result.title,
+			"preamble": result.preamble,
+			"applicable_standards": result.applicable_standards,
+			"chapters": result.chapters,
+			"closing": result.closing
+		}
+		return ContractFormat(**response_dict)
+	except Exception as e:
+		logger.exception("Answer failed")
+		raise HTTPException(status_code=500, detail=str(e))
+	
+
 # test endpoint
 @router.get("/test")
 async def test_endpoint():
