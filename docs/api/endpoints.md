@@ -24,59 +24,7 @@ Handles contract consultation and generates detailed Islamic finance contract re
 ```json
 {
   "response": "string",
-  "title": "string | null",
-  "summary": "string | null",
-  "report": {
-    "contract_type": "string",
-    "contract_purpose": "string",
-    "parties": [
-      {
-        "name": "string",
-        "role": "string",
-        "contact_info": {
-          "address": "string",
-          "phone": "string",
-          "email": "string"
-        },
-        "financial_info": {}
-      }
-    ],
-    "contract_details": {},
-    "financial_structure": {},
-    "timeline": {
-      "start_date": "string",
-      "end_date": "string | null",
-      "key_milestones": [
-        {
-          "date": "string",
-          "description": "string"
-        }
-      ]
-    },
-    "risks": [
-      {
-        "description": "string",
-        "likelihood": "string",
-        "impact": "string",
-        "mitigation": "string"
-      }
-    ],
-    "sharia_compliance_notes": ["string"],
-    "applicable_standards": {
-      "FAS": ["string"],
-      "Sharia": ["string"]
-    },
-    "accounting_entries": [
-      {
-        "description": "string",
-        "debit_accounts": [{"account": "string", "amount": "number"}],
-        "credit_accounts": [{"account": "string", "amount": "number"}],
-        "notes": "string | null"
-      }
-    ],
-    "additional_notes": "string | null",
-    "executive_summary": "string"
-  } | null
+  "detailed_summary": "string"
 }
 ```
 
@@ -86,7 +34,7 @@ Handles contract consultation and generates detailed Islamic finance contract re
 Generates structured contract documents following Islamic finance standards.
 
 #### Request Schema
-Uses the same schema as the Consultant's report response.
+Uses the same schema as the Consultant's detailed summary response.
 
 #### Response Schema
 ```json
