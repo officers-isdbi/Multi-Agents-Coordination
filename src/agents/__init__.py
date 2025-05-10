@@ -20,12 +20,13 @@ GPT4o_mini = OpenAIChat(
 from agno.team.team import Team
 from src.agents.consultant import consultant
 from src.agents.contractor import contractor
+from src.agents.classifier import classifier
 
 banking_department = Team(
     name="banking_department",
     mode="coordinate",
     model=GPT4o,
-    members=[consultant, contractor],
+    members=[consultant, contractor, classifier],
     description="",
     instructions="",
     add_member_tools_to_system_message=True,

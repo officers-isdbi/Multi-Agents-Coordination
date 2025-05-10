@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 from fastapi import UploadFile
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Literal
 
 class BankingDepartmentRequest(BaseModel):
     files: List[UploadFile] = Field(description="The file to be consulted")
@@ -106,4 +106,6 @@ class ContractFormat(BaseModel):
     chapters: List[Chapter] = Field(description="The chapters of the contract")
     closing: str = Field(description="The closing text of the contract including signature blocks")
     
-
+class ClassificationResult(BaseModel):
+    classifier_decision: Literal["Ijarah", "Ijarah Muntahia Bittamleek"]
+    explanation: str

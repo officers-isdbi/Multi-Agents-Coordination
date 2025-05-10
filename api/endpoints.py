@@ -1,10 +1,9 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, File, HTTPException, UploadFile
 import logging
 
-from src.agents.models import BankingDepartmentRequest, BankingDepartmentResponse, ConsultantRequest, ConsultantResponse, IslamicFinanceContractReport, ContractFormat
+from src.agents.models import BankingDepartmentRequest, BankingDepartmentResponse, ConsultantRequest, ConsultantResponse, IslamicFinanceContractReport, ContractFormat, ClassificationResult, ClassificationRequest
 from src.agents.utils import getTeamAnswer, getAgentAnswer
-from src.agents import banking_department, consultant, contractor
-from api.utils import post_request
+from src.agents import banking_department, consultant, contractor, classifier
 
 logger = logging.getLogger("uvicorn.error")
 
@@ -61,7 +60,22 @@ async def contractor_endpoint(request: IslamicFinanceContractReport) -> Contract
 		logger.exception("Answer failed")
 		raise HTTPException(status_code=500, detail=str(e))
 	
-
+@router.post("/classifier", response_model=ClassificationResult)
+async def classifier_endpoint(request: UploadFile) -> ClassificationResult:
+	"""
+	Classifies a transaction.
+	"""
+	try:
+		result = getAgentAnswer(classifier, query="Classify the following transaction", file=File(content=request.file.read()))
+		response_dict = {
+			"classifier_decision": result.classifier_decision,
+			"explanation": result.explanation
+		}
+		return ClassificationResult(**response_dict)
+	except Exception as e:
+		logger.exception("Answer failed")
+		raise HTTPException(status_code=500, detail=str(e))
+	
 # test endpoint
 @router.get("/test")
 async def test_endpoint():

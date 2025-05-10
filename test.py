@@ -1,11 +1,22 @@
-# test the endpoint: https://multi-agents-coordination.onrender.com/v1/consultant
+# from agno.knowledge.website import WebsiteKnowledgeBase
 
-import requests
+from neo4j import GraphDatabase
 
-query = "How does Sukuk (Islamic bonds) work and what are its key features compared to conventional bonds?"
+# Aura credentials
+AURA_URI = "neo4j+s://70014ae6.databases.neo4j.io"
+AURA_USER = "neo4j"
+AURA_PASSWORD = "password"
 
-response = requests.post("https://multi-agents-coordination.onrender.com/v1/consultant", json={"query": query})
-
-print(response.json())
-
-
+try:
+    driver = GraphDatabase.driver(AURA_URI, auth=(AURA_USER, AURA_PASSWORD))
+    driver.verify_connectivity()
+    print("Successfully connected to Neo4j Aura!")
+except Exception as e:
+    print(f"Failed to connect: {str(e)}")
+finally:
+    if 'driver' in locals():
+        driver.close()
+# website_kb = WebsiteKnowledgeBase(
+#     urls=["https://docs.oracle.com/cd/E86273_01/html/CI/CITOC.htm"],
+#     max_links=1000,
+# )
