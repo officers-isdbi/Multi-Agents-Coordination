@@ -73,6 +73,10 @@ class IslamicFinanceContractReport(BaseModel):
     # Summary for quick reference
     executive_summary: str = Field(description="A concise summary of the contract details")
 
+    model_config = {
+        "extra": "allow"
+    }
+
 class ChatHistory(BaseModel):
     role: str = Field(description="The role of the chat history, either user or assistant")
     content: str = Field(description="The content of the chat history")
@@ -83,12 +87,10 @@ class ConsultantRequest(BaseModel):
 
 class ConsultantResponse(BaseModel):
     response: str = Field(description="response to the user query")
-    title: Optional[str] = Field(description="title of the contract, to be generated at the end of the conversation or when the user finalize all his requests",
-                                default=None)
-    summary: Optional[str] = Field(description="summary of the contract, to be generated at the end of the conversation or when the user finalize all his requests",
-                                default=None)
-    report: Optional[IslamicFinanceContractReport] = Field(description="report of the consultancy, to be generated at the end of the conversation or when the user finalize all his requests",
-                                                            default=None)
+    detailed_summary: str = Field(description="detailed summary of all the ongoing conversation, to be updated as the conversation progresses")
+
+class ContractFormatRequest(BaseModel):
+    detailed_summary: str = Field(description="detailed summary of all the ongoing conversation, to be updated as the conversation progresses")
 
 class Section(BaseModel):
     title: str = Field(description="The title of the section")

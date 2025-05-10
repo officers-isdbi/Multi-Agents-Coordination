@@ -1,7 +1,7 @@
 from fastapi import APIRouter, File, HTTPException, UploadFile
 import logging
 
-from src.agents.models import BankingDepartmentRequest, BankingDepartmentResponse, ConsultantRequest, ConsultantResponse, IslamicFinanceContractReport, ContractFormat, ClassificationResult
+from src.agents.models import BankingDepartmentRequest, BankingDepartmentResponse, ConsultantRequest, ConsultantResponse, IslamicFinanceContractReport, ContractFormat, ClassificationResult, ContractFormatRequest
 from src.agents.utils import getTeamAnswer, getAgentAnswer
 from src.agents import banking_department, consultant, contractor, classifier
 
@@ -31,9 +31,7 @@ async def consultant_endpoint(request: ConsultantRequest) -> ConsultantResponse:
 		result = getAgentAnswer(consultant, request.query)
 		response_dict = {
 			"response": result.response,
-			"title": result.title,
-			"summary": result.summary,
-			"report": result.report if hasattr(result, 'report') else None
+			"detailed_summary": result.detailed_summary
 		}
 
 		return ConsultantResponse(**response_dict)
@@ -42,12 +40,12 @@ async def consultant_endpoint(request: ConsultantRequest) -> ConsultantResponse:
 		raise HTTPException(status_code=500, detail=str(e))
 	
 @router.post("/contractor", response_model=ContractFormat)
-async def contractor_endpoint(request: IslamicFinanceContractReport) -> ContractFormat:
+async def contractor_endpoint(request: ContractFormatRequest) -> ContractFormat:
 	"""
 	Generates a contract format.
 	"""
 	try:
-		result = getAgentAnswer(contractor, request)
+		result = getAgentAnswer(contractor, request.detailed_summary)
 		response_dict = {
 			"title": result.title,
 			"preamble": result.preamble,
