@@ -1,11 +1,14 @@
 from agno.knowledge.website import WebsiteKnowledgeBase
-
 from neo4j import GraphDatabase
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Aura credentials
-AURA_URI = "neo4j+s://<your-database-id>.databases.neo4j.io"
-AURA_USER = "neo4j"
-AURA_PASSWORD = "password"
+AURA_URI = os.getenv("NEO4J_URI")
+AURA_USER = os.getenv("NEO4J_USERNAME")
+AURA_PASSWORD = os.getenv("NEO4J_PASSWORD")
 
 driver = GraphDatabase.driver(AURA_URI, auth=(AURA_USER, AURA_PASSWORD))
 
