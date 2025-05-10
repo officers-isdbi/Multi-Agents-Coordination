@@ -1,7 +1,7 @@
 from fastapi import APIRouter, File, HTTPException, UploadFile
 import logging
 
-from src.agents.models import BankingDepartmentRequest, BankingDepartmentResponse, ConsultantRequest, ConsultantResponse, IslamicFinanceContractReport, ContractFormat, ClassificationResult, ClassificationRequest
+from src.agents.models import BankingDepartmentRequest, BankingDepartmentResponse, ConsultantRequest, ConsultantResponse, IslamicFinanceContractReport, ContractFormat, ClassificationResult
 from src.agents.utils import getTeamAnswer, getAgentAnswer
 from src.agents import banking_department, consultant, contractor, classifier
 

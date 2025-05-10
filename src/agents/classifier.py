@@ -2,8 +2,7 @@ from agno.agent import Agent
 from src.config.prompts import CLASSIFIER_INSTRUCTION
 from src.agents import GPT4o
 from src.agents.models import ClassificationResult
-from src.tools import website_kb_as_tool
-from src.tools.consultant import query_aura
+from src.tools.consultant import website_kb_as_tool, query_aura
 
 classifier = Agent(
     name="FAS-Classifier",
